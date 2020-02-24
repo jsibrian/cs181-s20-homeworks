@@ -141,6 +141,17 @@ x, y
 \newpage
 
 \subsection*{Solution}
+\begin{enumerate}
+    \item See code.
+    \item \hspace{2cm} \newline
+    \includegraphics[scale=.40]{hw2/P1_Pics/figure_1.png}
+    \includegraphics[scale=.40]{hw2/P1_Pics/figure_1-1.png}
+    \includegraphics[scale=.40]{hw2/P1_Pics/figure_1-2.png}
+    \item
+    As we change the basis from basis 1 to basis 3 the variance goes up, tending towards overfitting. It is hard to determine the bias of any given basis since we use the same training data for every iteration of the program. But between models we see the bias decreases as we move from Basis 1 to Basis 3. This is especially apparent on the left side of the graph of Basis 3.
+    \item
+    The variance would decrease. This is because when given more information, data points, the model  would most likely adapt a more generalizable model because the data cannot be perfectly fit. Thus the output will change less drastically relative to the input resulting in lower variance.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 2
@@ -221,7 +232,108 @@ $\boldX^{-\top} := (\boldX^{\top})^{-1}$
 
 
 \subsection*{Solution}
-
+    \begin{enumerate}
+        \item 
+        \begin{equation*}
+            p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = \prod_{i=1}^{N} p(\boldx_{i} | \boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \begin{equation*}
+            p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = \prod_{i=1}^{N} p(\boldx_{i} | \boldy_{i} = C_j)p(\boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \begin{equation*}
+            p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = \prod_{i=1}^{N} \prod_{j=1}^{K} (p(\boldx_{i} | \boldy_{i} = C_j)p(\boldy_{i} = C_j; \bpi))^{y_{ij}}
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln (p(\boldx_{i} | \boldy_{i} = C_j)p(\boldy_{i} = C_j; \bpi))
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln p(\boldx_{i} | \boldy_{i} = C_j) + y_{ij} \ln p(\boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \item
+        \begin{equation*}
+            p(\boldy = C_j; \bpi) = \pi_{j}
+            \hspace{3cm}
+            \sum_{j=1}^{K}\pi_j - 1 = 0
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln p(\boldx_{i} | \boldy_{i} = C_j) -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij}\ln  p(\boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln \pi_{j}
+        \end{equation*}
+        \begin{equation*}
+           \frac{\partial}{\partial\pi_{k}}(L(\pi_{j}, \lambda) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln \pi_{j} + \lambda(\sum_j\pi_j - 1)) \hspace{1cm} \frac{\partial}{\partial\lambda} (L(\pi_{j}, \lambda) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln \pi_{j} + \lambda(\sum_j\pi_j - 1))
+        \end{equation*}
+        \begin{center}
+            Fix $j = k$ for all $k \in \{1, \ldots, c\}$ to solve partial derivative w.r.t $\pi_k$
+        \end{center}
+        \begin{equation*}
+          -\frac{1}{\hat\pi_{k}}\sum_{i=1}^{N} y_{ik} + \lambda = 0 \hspace{1cm} \sum_{k=1}^{K}\hat\pi_k - 1 = 0
+        \end{equation*}
+        \begin{equation*}
+          \hat\pi_{k} = \frac{1}{\lambda}\sum_{i=1}^{N} y_{ik}  \hspace{1cm} \sum_{k=1}^{K}\hat\pi_k = 1
+        \end{equation*}
+        \begin{equation*}
+          \frac{1}{\lambda} \sum_{k=1}^{K} \sum_{i=1}^{N} y_{ik} = 1 \hspace{.5cm}\Longrightarrow\hspace{.5cm} \lambda = \sum_{k=1}^{K} \sum_{i=1}^{N} y_{ik}
+        \end{equation*}
+        \begin{equation*}
+          \hat\pi_{k} = \frac{\sum_{i=1}^{N} y_{ik}}{\sum_{k=1}^{K} \sum_{i=1}^{N} y_{ik}}
+        \end{equation*}
+        \item
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln \mathcal{N}(\boldx |  \bmu_j, \bSigma) -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij}\ln  p(\boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)^T \bSigma^{-1}(\boldx_i - \bmu_j) + c
+        \end{equation*}
+        \begin{equation*}
+            \frac{\partial}{\partial \bmu_k}(-\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)^T \bSigma^{-1}(\boldx_i - \bmu_j) + c)
+        \end{equation*}
+        \begin{center}
+            Fix $j = k$ for all $k \in \{1, \ldots, c\}$ to solve partial derivative w.r.t $\bmu_k$.\newline Use Matrix Cookbook Equation 86.
+        \end{center}
+        \begin{equation*}
+            = \sum_{i=1}^{N} y_{ik} \bSigma^{-1}(\boldx_i - \bmu_k) \hspace{.5cm}=\hspace{.5cm} \sum_{i=1}^{N} y_{ik} \bSigma^{-1}\boldx_i - \sum_{i=1}^{N} y_{ik} \bSigma^{-1}\hat\mu_k
+        \end{equation*}
+        \item
+        \begin{equation*}
+            \sum_{i=1}^{N} y_{ik} \bSigma^{-1}\boldx_i - \sum_{i=1}^{N} y_{ik} \bSigma^{-1}\hat\mu_k = 0
+        \end{equation*}
+        \begin{equation*}
+            \bSigma^{-1}\sum_{i=1}^{N} y_{ik}\boldx_i = \bSigma^{-1}\hat\mu_k \sum_{i=1}^{N} y_{ik}
+        \end{equation*}
+        \begin{equation*}
+            \hat\mu_k = \frac{\sum_{i=1}^{N} y_{ik}\boldx_i}{\sum_{i=1}^{N} y_{ik}}
+        \end{equation*}
+        \begin{center}
+            I believe this is the sample mean vector.
+        \end{center}
+        \item
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} \ln \mathcal{N}(\boldx |  \bmu_j, \bSigma) -\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij}\ln  p(\boldy_{i} = C_j; \bpi)
+        \end{equation*}
+        \begin{equation*}
+            -\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\frac{N}{2} \ln |\bSigma| -\frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)^T \bSigma^{-1}(\boldx_i - \bmu_j) + c
+        \end{equation*}
+        \begin{equation*}
+            \frac{\partial}{\partial \bSigma^{-1}}(-\ln p(\{\boldx_{i}, \boldy_{i}\}_{i=1}^{N}; \bpi) = -\frac{N}{2} \ln |\bSigma^{-1}| -\frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)^T\bSigma^{-1}(\boldx_i - \bmu_j) + c)
+        \end{equation*}
+            \begin{center}
+            Use Matrix Cookbook Equation 16, 57, and 70.  \end{center}
+        \begin{equation*}
+            = \frac{N}{2}\bSigma - \frac{1}{2} \sum_{i=1}^{N}\sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)(\boldx_i - \bmu_j)^T
+        \end{equation*}
+        \item
+        \begin{equation*}
+            \frac{N}{2}\hat\Sigma - \frac{1}{2} \sum_{i=1}^{N}\sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)(\boldx_i - \bmu_j)^T = 0
+        \end{equation*}
+        \begin{equation*}
+            N\hat\Sigma = \sum_{i=1}^{N}\sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)(\boldx_i - \bmu_j)^T
+        \end{equation*}
+        \begin{equation*}
+            \hat\Sigma = \frac{1}{N} \sum_{i=1}^{N}\sum_{j=1}^{K} y_{ij} (\boldx_i - \bmu_j)(\boldx_i - \bmu_j)^T
+        \end{equation*}
+    \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -307,19 +419,98 @@ values in \texttt{T2\_P3.py} for logistic regression.
 
 
 \subsection*{Solution}
+\begin{enumerate}
+    \item \hspace{2cm} \newline
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1-3.png}
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1-1.png}
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1.png}
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1-4.png}
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1-5.png}
+    \includegraphics[scale=.40]{hw2/P3_Pics/figure_1-6.png}
+    The logistic regression and Gaussian generative classifier with a shared covariance matrix results look similar as they both have linear boundaries. The difference between the two plots mentioned is that the Logistic regression provides a better fit for the data classifying more points correctly. This is likely due to the gradient descent that is performed resulting in a better fit. 
+    
+    The Gaussian generative classifier with separate covariances provides a more exact fit to the data relative to the Gaussian generative classifier with a shared covariance matrix. This makes sense as the separate covariance matrix allows the classes to better fit the data. However, the Gaussian classifier with separate covariances does seem like it may tend toward overfitting the data. 
+    
+    The KNN plots are similar to both the Logistic regression and Gaussian generative classifier with a shared covariance matrix in general shape the major difference is that they do not provide a linear boundary. The KNN plots are not restricted to linear boundaries as the prediction are only derived from the nearest neighbors. As $k$ increases the border become more complex indicating that points are getting classified differently as more of the nearest neighbors are taken into account. This may or may not result in poorer classification because if $k$ is too large it can also result in poor fit.
+    \item \hspace{2cm} \newline
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.001=lam.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.001lam=.00001.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.001lam=1.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.01lam=.5.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.01lam=0.001.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=0.1lam=.00001.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/eta=2lam=.001.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/nolam.png}
+        \includegraphics[scale=.40]{hw2/P3_Pics/nolamsmall.png}
+        
+        $\eta = 0.01$ and $\lambda = 0.00001$.
+        Smaller $\eta$ makes for a slower and smoother convergence. If $\eta$ is too large you see radical jumps as the optimal value is overshot. On the other hand a larger $\eta$ leads to a quicker convergence. That is why my value is reasonable as it is small enough to allow for smooth convergence and large enough to do so reasonably quick.
+        
+        As for $\lambda$ when it was larger the convergence happened much quicker but the loss was much larger than when lambda was equal to $0$. This makes sense since $\lambda$ always increase overall loss and makes it so that loss cannot be minimized as much which allows for faster convergence. A larger $\lambda$ also helps avoid overfitting. When $\lambda$ is small there is less of a penalty to the overall loss resulting in more time until convergence, but the chance of overfitting. 
+        
+        Given the data I went with a small $\lambda$ to avoid overfitting ever so slightly. Since when $\lambda = 0$ there did not seem to be too much overfitting going on. So it was a reasonable choice as it adds a bit of regularization without over-penalizing the loss.
+    \item
+        Separate Covariance negative log-likelihood: 107.856648944
+        
+        Shared Covariance negative log-likelihood: 126.063690098
+        
+        The separate covariance model has a lower loss. This is logical since the separate convariance model is not restricted to using linear boundaries between the classes and nonlinear boundaries serve as a better fit for the given data. The issue is that the separate covariance model might overfit the data and not generalize well due to the very unique boundaries calculated.
+        
+        \item
+        Test star type predictions for Separate Covariance Gaussian Model:
+        
+        magnitude 6 and temperature 2: 
+        
+        class = 2
+        
+        Test star type predictions for Shared Covariance Gaussian Model:
+        
+        magnitude 6 and temperature 2: 
+        
+        class =  1
+        
+        Test star type predictions for Linear Regression:
+        
+        magnitude 6 and temperature 2: 
+        
+        class =  1
+        
+        Test star type predictions for KNN Model with k=1:
+        
+        magnitude 6 and temperature 2: 
+        
+        class =  0
+        
+        Test star type predictions for KNN Model with k=3:
+        
+        magnitude 6 and temperature 2:
+        
+        class =  0
+        
+        Test star type predictions for KNN Model with k=5: 
+        
+        magnitude 6 and temperature 2:
+        
+        class =  0
 
+    Given these results it seems like separate covariance Gaussian model cannot be trusted since the given data point is no where near the other "supergiant" data points.
+    As for KNN vs logistic regression and the shared covariance Gaussian models it's hard to tell which one to trust since the data point falls relatively close to the data points given for both "giant" and "dwarf" stars. However my inclination is that KNN is more trustworthy because the data point in question falls closer to other "dwarf" stars then it does to "giant" stars. So I would say that the logistic regression and the shared covariance Gaussian models are less trustworthy than the KNN models. Between the KNN models it is hard to assess which of the three is most trustworthy as they are all fairly similar in shape.
+\end{enumerate}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Name and Calibration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Name}
-
+Jason Sibrian
 \subsection*{Collaborators and Resources}
 Whom did you work with, and did you use any resources beyond cs181-textbook and your notes?
+
+Matrix Cookbook and stack overflow for a lot of clarification on numpy documentation
 
 \subsection*{Calibration}
 Approximately how long did this homework take you to complete (in hours)? 
 
+35
 
 
 \end{document}
