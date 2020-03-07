@@ -67,7 +67,7 @@ You can use a \textbf{maximum of 2 late days} on this assignment.  Late days wil
   have a prior $\mu \sim N(0,\tau^2)$ on the mean.  Use $\sigma^2 = 1$
   and $\tau^2 = 5$.  
 
-  In this problem, we see 15 independent samples of $x$ to yield data
+  In this problem, we see 14 independent samples of $x$ to yield data
   $$D = 3.3, 3.5, 3.1, 1.8, 3.0, 0.74, 2.5, 2.4, 1.6, 2.1, 2.4, 1.3, 1.7, 0.19$$
     
   \textit{Make sure to include all required plots in your PDF.}
@@ -108,11 +108,169 @@ You can use a \textbf{maximum of 2 late days} on this assignment.  Late days wil
 \end{enumerate}
 
 \end{problem}
-
+\newpage
 \subsection*{Solution}
+ \begin{enumerate}
+     \item 
+     \begin{equation*}
+         p(x^*|D) = \int \mcN(x^*|\mu, \sigma^2) \mcN(\mu | \mu_{n}, \sigma_{n}^2)
+     \end{equation*}
+     \begin{equation*}
+         = \mcN(x^* | \mu_{n}, \sigma_{n}^2 + \sigma^2)
+     \end{equation*}
+     \begin{equation*}
+         \sigma_{n}^2 = \frac{\sigma^2\tau^2}{n\tau^2 + \sigma^2} \hspace{2cm} \mu_{n} = \frac{n\tau^2\Bar{x}}{n\tau^2 + \sigma^2}
+     \end{equation*}
+     \begin{equation*}
+         p(x^*|D) = \mcN(x^* | \frac{n\tau^2\Bar{x}}{n\tau^2 + \sigma^2}, \frac{\sigma^2\tau^2}{n\tau^2 + \sigma^2} + \sigma^2) = \mcN(x^* | 2.0866, 1.0704)
+     \end{equation*}
+     \item
+     \begin{equation*}
+     \mu_{MAP} = \arg\max_{\mu} p(\mu|D)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} p(D|\mu) p(\mu)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \ln p(D|\mu)  + \ln p(\mu)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln p(x_i|\mu)  + \ln p(\mu)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \mcN(\mu, \sigma^2)  + \ln \mcN(0, \tau^2)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \frac{1}{\sqrt{2\pi}\sigma}\exp(\frac{-(x_i -\mu)^2}{2\sigma^2})  + \ln \frac{1}{\sqrt{2\pi}\tau} \exp(\frac{-\mu^2}{2\tau^2})
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \frac{1}{\sqrt{2\pi}\sigma} + \sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2}  + \ln \frac{1}{\sqrt{2\pi}\tau} + \frac{-\mu^2}{2\tau^2}
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2}  + \frac{-\mu^2}{2\tau^2}
+     \end{equation*}
+     \begin{equation*}
+     \frac{\partial}{\partial \mu}(\sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2}  + \frac{-\mu^2}{2\tau^2})
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} (x_i -\mu)  - \frac{\mu}{\tau^2} = 0
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} x_i - \frac{1}{\sigma^2}\sum_{i} \mu  - \frac{\mu}{\tau^2} = 0
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} x_i - \frac{n\mu}{\sigma^2}  - \frac{\mu}{\tau^2} = 0
+     \end{equation*}
+     \begin{equation*}
+     \mu_{MAP} = \mu = \frac{\frac{1}{\sigma^2}\sum_{i} x_i}{\frac{n}{\sigma^2}  + \frac{1}{\tau^2}} = 2.0866
+     \end{equation*}
+     
+     \begin{equation*}
+     \mu_{MLE} = \arg\max_{\mu} p(D|\mu)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \ln p(D|\mu) 
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln p(x_i|\mu)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \mcN(\mu, \sigma^2)
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \frac{1}{\sqrt{2\pi}\sigma}\exp(\frac{-(x_i -\mu)^2}{2\sigma^2})
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \ln \frac{1}{\sqrt{2\pi}\sigma} + \sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2}
+     \end{equation*}
+     \begin{equation*}
+     = \arg\max_{\mu} \sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2}
+     \end{equation*}
+     \begin{equation*}
+     \frac{\partial}{\partial \mu}(\sum_{i} \frac{-(x_i -\mu)^2}{2\sigma^2})
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} (x_i -\mu) = 0
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} x_i - \frac{1}{\sigma^2}\sum_{i} \mu = 0
+     \end{equation*}
+     \begin{equation*}
+     \frac{1}{\sigma^2}\sum_{i} x_i - \frac{n\mu}{\sigma^2} = 0
+     \end{equation*}
+     \begin{equation*}
+     \mu_{MLE} = \mu = \frac{\sum_{i} x_i}{n} = 2.1164
+     \end{equation*}\
+     \begin{equation*}
+     p(x^*|\mu_{MLE}) \sim \mcN(2.1164, 1) \hspace{2cm} p(x^*|\mu_{MAP}) \sim \mcN(2.0866, 1)
+     \end{equation*}
+     \item \hspace{2cm} \newline
+     \includegraphics[scale=.50]{hw3/Pics/Capture.JPG}
+     \item
+     With more data the means of the predictive distributions converge to the actual mean of the data set. The variances of the MLE and MAP distributions do not change while the variance of the posterior predictive distribution narrows with more data.
+     
+     The MLE and MAP estimators have set variances that do not change which is why we see no change in the variance of the graphs. While the variance of the posterior predictive has a dependence on the data and number of data points which is why we see a significant narrowing.
+     
+     As for all the distributions we see that they converge to the mean by shifting left and right depending on the data points until all data points are included. We then get the result shown in the graphs.
+     \item
+     No the ordering does not matter because there is no dependence on order in any of the final predictive distributions.
+     \item
+     \begin{equation*}
+         p(D) = \int p(D|\mu) p(\mu) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = \int \prod_{i} [\mcN(\mu, \sigma^2)] \mcN(0, \tau^2) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = \frac{1}{(\sqrt{2\pi}\sigma)^n(\sqrt{2\pi}\tau)}\int \exp(-\frac{1}{2\sigma^2}\sum_{i} (x_i - \mu)^2 - \frac{\mu^2}{2\tau^2}) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = \frac{1}{(\sqrt{2\pi}\sigma)^n(\sqrt{2\pi}\tau)}\int \exp(-\frac{1}{2\sigma^2}(\sum_{i} x_i^2 - 2\mu\sum_{i}x_i + \mu^2) - \frac{\mu^2}{2\tau^2}) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = \frac{\exp(-\frac{1}{2}(\frac{1}{\sigma^2}\sum_{i} x_i^2))}{(\sqrt{2\pi}\sigma)^n(\sqrt{2\pi}\tau)}\int \exp(-\frac{1}{2}(\frac{1}{\sigma^2}n\mu^2 - \frac{2}{\sigma^2}\sum_{i}x_i + \frac{\mu^2}{\tau^2})) d\mu
+     \end{equation*}
+     \begin{equation*}
+        c = \frac{\exp(-\frac{1}{2}(\frac{1}{\sigma^2}\sum_{i} x_i^2))}{(\sqrt{2\pi}\sigma)^n(\sqrt{2\pi}\tau)}
+     \end{equation*}
+     \begin{equation*}
+        = c\int \exp(-\frac{1}{2}(\frac{1}{\sigma^2}n\mu^2 - \frac{2}{\sigma^2}\sum_{i}x_i + \frac{\mu^2}{\tau^2})) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = c\int \exp(-\frac{1}{2}(\frac{n}{\sigma^2} + \frac{1}{\tau^2})(\mu^2 - 2\mu \frac{\frac{1}{\sigma^2}\sum_{i}x_i}{\frac{n}{\sigma^2} + \frac{1}{\tau^2}})) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = c \exp(\frac{(\frac{1}{\sigma^2}n\Bar{x})^2}{2(\frac{n}{\sigma^2} + \frac{1}{\tau^2})}) \int \exp(-\frac{1}{2}(\frac{n}{\sigma^2} + \frac{1}{\tau^2})(\mu - \frac{\frac{1}{\sigma^2}n\Bar{x}}{\frac{n}{\sigma^2} + \frac{1}{\tau^2}})^2) d\mu
+     \end{equation*}
+     \begin{equation*}
+        = c \exp(\frac{(\frac{1}{\sigma^2}n\Bar{x})^2}{2(\frac{n}{\sigma^2} + \frac{1}{\tau^2})}) \frac{\sqrt{2\pi}}{\sqrt{\frac{n}{\sigma^2}+\frac{1}{\tau}}}
+     \end{equation*}
+     \begin{equation*}
+        = \frac{\exp(-\frac{1}{2}(\frac{1}{\sigma^2}\sum_{i} x_i^2))}{(\sqrt{2\pi}\sigma)^n(\sqrt{2\pi}\tau)} \exp(\frac{(\frac{1}{\sigma^2}n\Bar{x})^2}{2(\frac{n}{\sigma^2} + \frac{1}{\tau^2})}) \frac{\sqrt{2\pi}}{\sqrt{\frac{n}{\sigma^2}+\frac{1}{\tau}}}
+     \end{equation*}
+     \begin{equation*}
+        = \frac{\sigma}{(\sqrt{2\pi}\sigma)^n(\sqrt{n\tau^2 + \sigma^2})}\exp(-\frac{\sum_{i} x_i^2}{2\sigma^2})\exp(\frac{\tau^2 n^2\Bar{x}^2}{2\sigma^2(n\tau^2 + \sigma^2)})
+     \end{equation*}
+     \begin{center}
+         Now substituting we get:
+     \end{center}
+     \begin{equation*}
+        p(D) = \frac{\sigma}{(\sqrt{2\pi}\sigma)^n(\sqrt{n\tau^2 + \sigma^2})}\exp(-\frac{\sum_{i} x_i^2}{2\sigma^2})\exp(\frac{\tau^2 n^2\Bar{x}^2}{2\sigma^2(n\tau^2 + \sigma^2)}) = 4.4628725 \times 10^{-10}
+     \end{equation*}
+     \item
+     \begin{center}
+         We can take our result from part 1.6 and just substitute in with $\tau = 0.1$
+     \end{center}
+     \begin{equation*}
+        p(D) = \frac{\sigma}{(\sqrt{2\pi}\sigma)^n(\sqrt{n\tau^2 + \sigma^2})}\exp(-\frac{\sum_{i} x_i^2}{2\sigma^2})\exp(\frac{\tau^2 n^2\Bar{x}^2}{2\sigma^2(n\tau^2 + \sigma^2)}) = 7.9997049 \times 10^{-15}
+     \end{equation*}
+     
+     The model where $\tau^2 = 5$ has a higher marginal likelihood.
+     
+     When we have a smaller $\tau^2$ we are more sure of the mean and as such the overall distribution of $\mu$ is much narrower and because of that our predictive distribution is integrated over a much smaller range of values and is smaller than when $\tau^2 = 5$.
+ \end{enumerate}
 
-
-
+\newpage
 \begin{problem}[Backprop]
 
   In this problem, we will implement backprop for a simple MLP. The MLP will consist of a first fully connected layer with a sigmoid activation, followed by a one-dimensional, second fully connected layer with a sigmoid activation to get a prediction for a binary classification problem. Assume bias has not been merged. Let:
@@ -179,9 +337,73 @@ You can use a \textbf{maximum of 2 late days} on this assignment.  Late days wil
 \end{enumerate}
 
 \end{problem}
-
+\newpage
 \subsection*{Solution:}
-
+\begin{enumerate}
+    \item 
+    $\boldx$: $M \times 1$\newline
+    $\boldW_{1}$: $H \times M$\newline
+    $\boldb_{1}$: $H \times 1$\newline
+    $\bolda_{1}$: $H \times 1$\newline
+    $\boldz_{1} = \sigma(\bolda_1)$: $H \times 1$\newline
+    $\boldW_{2}$: $1 \times H$\newline
+    $\boldb_{2}$: $1 \times 1$\newline
+    $a_{2}$: $1 \times 1$\newline
+    $\hat{y} = z_2 = \sigma(a_2)$: $1 \times 1$
+    
+    \item
+    \begin{equation*}
+        L = y \ln (\sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \ln (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2))
+    \end{equation*}
+    \begin{enumerate}
+        \item 
+    \begin{equation*}
+         \frac{\partial}{\partial b_2}(L = y \ln (\sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \ln (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)))
+    \end{equation*}
+    \begin{equation*}
+         \frac{\partial L}{\partial b_2} = y (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)
+    \end{equation*}
+    \item
+    \begin{equation*}
+        \frac{\partial}{\partial W_2^h}(L = y \ln (\sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \ln (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)))
+    \end{equation*}
+    \begin{equation*}
+        \frac{\partial L}{\partial W_2^h} = y 
+        (1 - \sigma(W_2^h \left[\sigma \left(\bold{W}_1^h \bold{x} + b_1^h\right)\right] + b_2^h)) (z_1^h) + (1 - y) (\sigma(W_2^h \left[\sigma \left(\bold{W}_1^h \bold{x} + b_1^h\right)\right] + b_2^h)(z_1^h)
+    \end{equation*}
+    \item
+    \begin{equation*}    
+        \frac{\partial}{\partial b_1^h}(L = y \ln (\sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \ln (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)))
+    \end{equation*}
+    \begin{equation*}
+    \begin{split}
+        \frac{\partial L}{\partial b_1^h} = y 
+        (1-\sigma(W_2^h \left[\sigma \left(\bold{W}_1^h \bold{x} + b_1^h\right)\right] + b_2^h))
+        W_2^h (\sigma(\bold{W}_1^h \bold{x} + b_1^h))(1-\sigma(\bold{W}_1^h \bold{x} + b_1^h)) \\ + (1 - y)(\sigma(W_2^h \left[\sigma \left(\bold{W}_1^h \bold{x} + b_1^h\right)\right] + b_2^h))
+        W_2^h (\sigma(\bold{W}_1^h \bold{x} + b_1^h))(1-\sigma(\bold{W}_1^h \bold{x} + b_1^h))
+       \end{split}
+    \end{equation*}
+    \item
+    \begin{equation*}    
+        \frac{\partial}{\partial W_1^{h,j}}(L = y \ln (\sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)) + (1 - y) \ln (1 - \sigma(\bold{W}_2 \left[\sigma \left(\bold{W}_1 \bold{x} + \bold{b}_1\right)\right] + \bold{b}_2)))
+    \end{equation*}
+    \begin{equation*}
+        \begin{split}
+        \frac{\partial L}{\partial W_1^{h,j}} = y 
+        (1-\sigma(W_2^h \left[\sigma \left(W_1^{h,j} x^j + b_1^h\right)\right] + b_2^h))
+        W_2^h (\sigma(W_1^{h,j} x^j + b_1^h))(1-\sigma(W_1^{h,j} x^j  + b_1^h)) \\ + (1 - y) (\sigma(W_2^h \left[\sigma \left(W_1^{h,j} x^j + b_1^h\right)\right] + b_2^h))
+        W_2^h (\sigma(W_1^{h,j} x^j  + b_1^h))(1-\sigma(W_1^{h,j} x^j  + b_1^h))
+        \end{split}
+    \end{equation*}
+    \end{enumerate}
+    \newpage
+    \item \hspace{2cm} \newline
+    \begin{center}
+       Truth \hspace{6cm} My Implementation
+    \end{center}  \includegraphics[scale=.50]{hw3/Pics/Capture3.JPG}
+    \includegraphics[scale=.50]{hw3/Pics/Capture2.JPG}
+    The gradient calculation portion of my code takes 0.11170530319213867 seconds  to run. I did not do a non-vectorized solution so comparing to the staff solution time of about 17 seconds my gradient calculation is about 152 times faster.
+\end{enumerate}
 
 
 \newpage
@@ -214,21 +436,113 @@ You can use a \textbf{maximum of 2 late days} on this assignment.  Late days wil
 \end{enumerate}
 
 \end{problem}
-
+\newpage
 
 \subsection*{Solution:}
+ \begin{enumerate}
+     \item 
+     Linear Regression Training Mean Squared Error: 19.272144590725716
+     
+    5-Fold Cross Validation MSE for Linear Regression Training Data: \newline 16.02794445, 48.50632367, 12.74195106, 11.69713358, 23.93173822
+     \item
+     Ridge Regression Training Mean Squared Error: 19.39246104909568
 
+    5-Fold Cross Validation MSE for Ridge Regression Training Data: \newline 15.88977775, 49.21046253, 12.47407382, 11.79736241, 24.25631497
+    
+    No, ridge regression did not increase performance compared to linear regression. This tells us that our data is probably not well modeled by a linear model since adding regularization does not change the quality of the fit and predictions of our model.
+    
+    \item
+    There are 13 variables overall. Some of those are numerical and some are categorical. Some of the numerical variables represent a linear relationship whereas some have no such relationship. A simple linear model would not perform well with this data. More complex models that could take into account more nuanced relationships between the variables would improve the performance.
+    
+    \item
+    MLP Regression Training Mean Squared Error: 55.321936119912955
+    
+    5-Fold Cross Validation MSE for MLP Regression Training Data: \newline 33.21386913, 48.67184049, 32.38814759, 25.84562607, 33.29802893
+    
+    The MLP model gives both higher train and cross validation mean squared error. This is not expected because an MLP model should be able to account for non-linear relationships in our data. However this model is not tuned which is why we may be seeing the poorer performance relative to the linear models.
+    
+    \item\
+    Hyperparameters:
+    
+    Alpha: 0.0001
+    
+    Learning Rate: 0.00001
+    
+    Solver: lbfgs
+    
+    Maximum iterations: 100000
+    
+    Activation function: relu
+    
+    Tuned MLP Regression Training Mean Squared Error: 2.4542575792572086
+    
+    5-Fold Cross Validation MSE for Tuned MLP Regression Training Data: \newline 11.02329679, 33.78367956,  9.08768975, 10.21991886, 29.85733865
+
+
+    \item
+    Random Forest Regression Training Mean Squared Error: 1.759140841584159
+
+    5-Fold Cross Validation MSE for Random Forest Regression Training Data: \newline 7.33051056, 31.12830138,  6.58855442, 9.71850304, 17.97296579
+    
+    The Random Forest Regressor is a series of decision trees that can be trained fairly quickly when compared to MLP and captures the same if not more of the relationships than MLP. The Random Forest Regressor is also better at handling a smaller data set than that of the MLP Regressor. In addition, the MLP requires tuning to predict more correctly as shown in parts 4 and 5, and finding the hyperparameters that give the best fit is computationally expensive. That is not necessary with the Random Forest Regresssor which is another reason we see better overall performance from the Random Forest Regressor.
+    
+    \item
+    Best Number of Neighbors: 2
+    
+    kNN Regression Training Mean Squared Error: 10.098601485148516
+    
+    5-Fold Cross Validation MSE for kNN Regression Training Data: \newline 38.16657407, 59.9512037,  31.35466049, 36.21453704, 31.79921875
+    
+    kNN uses the neighbors to predict the value of the variable, but with a data set so complex and with so many features the nearest neighbors may not be very representative of the actual value.
+    
+    kNN is computationally faster than parametric models at train time because it performs a series of comparisons and averages. Whereas parametric model must calculate computationally expensive equations in order to train the model, this becomes especially apparent once the data becomes very large. 
+    
+    During test time they all perform about the same speed because the model has already been trained and the steps needed to calculate a prediction are relatively computationally non-intensive.
+    
+    \item
+    Linear Regression Test Data:
+    
+    Mean Squared Error: 38.782960960846694
+    
+    Ridge Regression Test Data:
+    
+    Mean Squared Error: 39.66375959063913
+    
+    MLP Regression Test Data:
+    
+    Mean Squared Error: 97.4941502907401
+    
+    Tuned MLP Regression Test Data:
+    
+    Mean Squared Error: 17.765996390510573
+    
+    Random Forest Regression Test Data:
+    
+    Mean Squared Error: 15.572669196078419
+    
+    kNN Regression Test Data:
+    
+    Mean Squared Error: 58.06419117647059
+
+    We see the linear models perform worse with the novel test data because they are not great at predicting the non-linear relationships present in the data. We also see the kNN model performs worse relative to the training performance because the nearest neighbors are not necessarily the best predictors of the actual value of the novel data. The untrained MLP Regressor obviously performs poorly in both cases since it is untrained. Lastly, we see that the two parametric models, the Tuned MLP Regressor and the Random Forest Regressor, both perform the best, in training and testing, since they can best model the relationships in the training data and generalize to the novel test data.
+ \end{enumerate}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Name and Calibration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Name}
 
+Jason Sibrian
+
 \subsection*{Collaborators and Resources}
 Whom did you work with, and did you use any resources beyond cs181-textbook and your notes?
 
+https://www.cs.ubc.ca/~murphyk/Papers/bayesGauss.pdf for help on Posterior Predictive
+
 \subsection*{Calibration}
 Approximately how long did this homework take you to complete (in hours)? 
+
+45
 
 
 \end{document}
