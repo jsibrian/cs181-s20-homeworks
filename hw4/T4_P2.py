@@ -248,7 +248,6 @@ for j in range(K):
 sns.heatmap(conf)
 plt.show()
 
-print(small_dataset[1:20])
 for i in ['min', 'max', 'centroid']:
     HA = HAC(linkage = i)
     HA.fit(small_dataset)
