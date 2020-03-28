@@ -96,14 +96,104 @@ the decision boundary. Justify your answer.
 
 \end{problem}
 
-% \subsection*{Solution}
+\newpage
 
-% \newpage
+\subsection*{Solution}
 
+\begin{enumerate}
+    \item This is what the transformed data looks like one plotted. Upon inspection we have plotted the optimal decision boundary at $\phi_{2}(x)= -1$. \newline
+    \includegraphics[scale=.50]{hw4/Pics/graph1_hw4.JPG}
+    
+    \item The margin achieved by the optimal decision boundary is 1.
+    
+    \item $\begin{bmatrix}
+           0 \\
+           1 \\
+         \end{bmatrix}$
+         is orthogonal to the decision boundary. 
+         
+    \item
+        $\boldw = \begin{bmatrix}
+           0 \\
+           1 \\
+         \end{bmatrix}$
+         \begin{equation*}
+             h(\phi(x); \boldw, w_0) = [0,1]\phi(x) + w_0 = 0
+         \end{equation*}
+         \begin{equation*}
+             h(\phi(x); \boldw, w_0) = [0,1][\phi_{1}(x), \phi_{2}(x)] + w_0
+         \end{equation*}
+         \begin{center}
+             We know that $\phi_{2}(x) = -1$  is the decision boundary. We can now substitute.
+         \end{center}
+         \begin{equation*}
+             h(\phi(x); \boldw, w_0) = [0,1][\phi_{1}(x), -1] + w_0
+         \end{equation*}
+         \begin{center}
+             From here we can now simplify.
+         \end{center}
+         \begin{equation*}
+             h(\phi(x); \boldw, w_0) = -1 + w_0 = 0
+         \end{equation*}
+         \begin{equation*}
+             w_0 = 1
+         \end{equation*}
+         From here we get that $\boldw = \begin{bmatrix}
+           0 \\
+           1 \\
+         \end{bmatrix}$, $w_0 = 1$ is a valid ($\boldw, w_0$). The discriminant equation is not affected by scaling since it equals 0. So for some $\boldw_{c}$ and $w_{0,c}$ we have $\boldw_{c} = c\boldw$ and $w_{0,c} = cw_0$ and these are valid combinations of $\boldw$ and $w_0$. So from this we can conclude that any combination of this form is valid. Therefore, the general form can be described by ($\boldw =
+         \begin{bmatrix}
+           0 \\
+           c \\
+         \end{bmatrix}$, $w_0 = c$).
+         
+    \item
+        We can solve this by looking at $y_i(\mathbf{w}^\top \bphi(x_i) + w_0) \geq 1$ which is the constratint on the minimization of the norm of $\boldw$. This should hold for all support vectors, so we can chose one of the point closest to our boundary. So we can choose $(-1, -1)$ and transform with $\phi(x)$ which gives $(-1, -2)$ and then solve using the result from part 4.
+        
+        \begin{equation*}
+            y_i(\mathbf{w}^\top \bphi(x_i) + w_0) \geq 1
+        \end{equation*}
+        \begin{equation*}
+            -1([0, c][-1, -2] + c) = 1
+        \end{equation*}
+        \begin{equation*}
+            -2c + c = -1
+        \end{equation*}
+        \begin{equation*}
+            c = 1
+        \end{equation*}
+        
+        And so we get that $\boldw = \begin{bmatrix}
+        0 \\
+        1 \\
+        \end{bmatrix}$ is the optimal solution for the optimization problem.
+        
+        \item Our solution for part 5 already solves for c so we get our optimal value of $w_0 = 1$, this agrees with part 4.
+        
+        So our discriminant function now looks like $h(\bphi(x);\boldw,w_0) = [0, 1]\phi(x) + 1$
+        
+        \item We can easily identify the support vectors from the graph. The five are (-2,0), (-1,-2), (0,0), (1,-2), (2, 0), these are given transformed by $\phi(x)$.
+        
+        Now we use $y_i(\mathbf{w}^\top \bphi(x_i) + w_0) = 1$ to confirm the constraints are binding.
+        \begin{equation*}
+            (-2,0) : 1([0,1][-2,0] + 1) = 1 \longrightarrow True
+        \end{equation*}
+        \begin{equation*}
+            (-1,-2) : -1([0,1][-1,-2] + 1) = 1 \longrightarrow True
+        \end{equation*}
+        \begin{equation*}
+            (0,0) : 1([0,1][0,0] + 1) = 1 \longrightarrow True
+        \end{equation*}
+        \begin{equation*}
+            (1,-2) : -1([0,1][1,-2] + 1) = 1 \longrightarrow True
+        \end{equation*}
+        \begin{equation*}
+            (2, 0) : 1([0,1][2,0] + 1) = 1 \longrightarrow True
+        \end{equation*}
+\end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{problem}[K-Means and HAC, 20pts]
 
 
@@ -175,7 +265,48 @@ The code given in \texttt{T4\_P2.py} loads the images into your environment into
 
 \end{problem}
 
-% \subsection*{Solution}
+\newpage
+
+\subsection*{Solution}
+\begin{enumerate}
+    \item Upon inspection we can see that it does not increase.\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part1.png}
+    
+    \item As $K$ increases the final value of the objective function and the standard deviation decrease. \newline
+    \includegraphics[scale=.70]{hw4/Pics/Part2.png}
+    \newpage
+    \item\hspace{2 cm}Restart 1\hspace{1 cm}Restart 2\hspace{1 cm}Restart 3\hspace{1 cm}Restart 4\hspace{1 cm}Restart 5 \newline
+    \includegraphics[scale=.70]{hw4/Pics/Part3.png}\newline
+    \newpage
+    \item\hspace{2.4 cm}Restart 1\hspace{1 cm}Restart 2\hspace{1 cm}Restart 3\hspace{1 cm}Restart 4\hspace{1 cm}Restart 5 \newline
+    \includegraphics[scale=.70]{hw4/Pics/Part4.png}\newline
+    The images in part 3 (non-standardized) very clearly appear to be numbers. While the images in part 4 (standardized) look somewhat like numbers but then appear to have a blur or indistinctness to them. After some research this is caused by the way negative numbers are treated when graphing. When we subtracted the mean to standardize we got some negative numbers, and when those were graphed they were treated as zeros and everything else was scaled accordingly which is why we get this blurry semblance of a number.
+    \newpage
+    \item \hspace{3.5cm}min\hspace{3.7 cm}max\hspace{3.5 cm}centroid\newline
+    \includegraphics[scale=1.0]{hw4/Pics/Part5.png}\newline
+    For all the images created by the different HAC linkages when there is a number it is much crisper and more easily identifiable when compared to K-means. This is less the case in much of the max linkage (but it does still does occur to some extent). It  seems like the HAC method is able to create much more accurate clusters (when using the right linkage) than K-means.
+    \newpage
+    \item \hspace{1 cm} \newline
+    \includegraphics[scale=.70]{hw4/Pics/Part6-1.png}\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part6-2.png}\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part6-3.png}\newline
+    For all three of the graphs the natural cut points seem to be around 280 or so merges. 
+    \item \hspace{1 cm} \newline
+    \begin{center}
+    \hspace{1cm}Heatmap for K-means\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part7_K.png}\newline
+    Heatmap for HAC min linkage\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part7_min.png}\newline
+    Heatmap for HAC max linkage\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part7_max.png}\newline
+    \newpage
+    Heatmap for HAC centroid linkage\newline
+    \includegraphics[scale=.70]{hw4/Pics/Part7_cent.png}\newline
+    \end{center}
+    According to this the K-means approach is a bit all over the place in terms of correctly matching. And the HAC approaches all have specific areas of issue at 0 for min and max linkages and at 4 for the centroid linkage. So I would say that the HAC min and max match the best, followed by the K-means, and then in last is the HAC centroid.
+    
+    I do not believe this is a reasonable evaluation metric for the clustering since due to manipulation of the data and the way means and other variables are initialized the class that is labeled 4 in our program might not correspond to the data that has a label of 4 which leads to confusion when you compare the clustering approach. This will likely lead to an incorrect assessment of which method works best and delivers the best results.
+\end{enumerate}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -192,19 +323,35 @@ What further questions must you address in order to confidently determine whethe
 We expect clear, concise, and thoughtful engagement with this question, which includes providing your reasoning for your answers.  In your response, depth is more important than breadth. We do \emph{not} expect you to do any outside research, though we encourage you to connect to lecture materials where relevant.
 
 \end{problem}
-
-% \subsection*{Solution}
-
+\newpage
+\subsection*{Solution}
+     
+    These vulnerable population are typically less likely to go to health centers and as such the actual need in a given area may under-reported. Does the algorithm factor this into account using other metrics?
+     \vspace{.5cm}
+     
+    This question lets us know whether or not the algorithm is taking into account a wide range of data that can account for or mitigate inconsistencies in reporting practices (that can come from malice or disorganization). It also allows us to see if population counts are be taken into account when resources are allocated. In taking these metrics into account so we can combat under-reporting we attempt to minimize the potential for discrimination. As these are key points to look into because if the algorithm failed to take this into account then in reality it is not accomplishing its main goal. Once we address this question we know if we need to add more data to the model or tweak how the data is manipulated/handled by the model and in doing so the potential for wrongful discrimination due to this facet would be less likely.
+    \vspace{.5cm}
+    \newline
+    Upon testing does the algorithm allocate more resources to wealthier or more well off communities in comparison to those communities with more vulnerable populations?
+    \vspace{.5cm}
+    
+    This is a question to be addressed in the earlier testing phases. This question really lets us known whether or not their are inherent biases in the data we are giving the algorithm, that the algorithm by its nature is reinforcing. If the algorithm did end up not allocating resources to areas that are well understood to need the resources or if it allocated resources to areas that are known to not need it then we would know in the early stages that there is a major issue with the data (whether it be bias, lack of variety of data, or something else altogether). From there the algorithm can be readjusted and retested until it performs more correctly. By doing this we can assure ourselves that the a design we are implementing benefits vulnerable groups rather than increase the inequality they experience. In addition, by doing this in the early stages the hope is we mitigate any unknown discrimination from existing and potentially continuing to propagate into other models.
+    
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Name and Calibration
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Name}
+Jason Sibrian
 
 \subsection*{Collaborators and Resources}
 Whom did you work with, and did you use any resources beyond cs181-textbook and your notes?
+\newline
+N/A
 
 \subsection*{Calibration}
 Approximately how long did this homework take you to complete (in hours)? 
+\newline
+25
 
 \end{document}
