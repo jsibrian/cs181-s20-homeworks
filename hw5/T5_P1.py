@@ -83,22 +83,32 @@ class EM_Geometric(object):
         ll : float
             The log-likelihood of current set of labels (according to a geometric distribution)
         '''
-        # TODO: Implement the log-likelihood function
-        pass
+        ll = 0
+        for i in range(self.num_clusters):
+            for j in range(self.data.shape[0]):
+                ll += self.q[j, i]*((self.data[j]*np.log(1 - self.probs[i])) + np.log(self.probs[i]) + np.log(self.pis[i]))
+
+        return ll
 
     def e_step(self):
         '''
         Run the expectation step, calculating the soft assignments based on current parameter estimates
         '''
-        # TODO: Implement the expectation step
-        pass
-
+        es = np.empty([self.q.shape[0], self.q.shape[1]])
+        for n in range(self.data.shape[0]):
+            total = np.sum((((1 - self.pis)**(self.data[n] - 1))*self.pis*self.probs))
+            for i in range(self.pis.shape[0]):
+                es[n][i] = np.divide((((1 - self.pis[i])**(self.data[n] - 1))*self.pis[i]*self.probs[i]), total)
+        self.q = es
+        
     def m_step(self):
         '''
         Run the maximization step, calculating parameter estimates based on current soft assignments
         '''
-        # TODO: Implement the maximization step
-        pass
+        self.pis = np.divide(np.sum(self.q, axis = 0), self.data.shape[0])
+        total = np.sum(np.multiply(self.data[:, np.newaxis], self.q), axis = 0)
+        self.probs = np.divide(np.sum(self.q, axis = 0), total)
+        
 
     def get_labels(self):
         '''
@@ -119,7 +129,7 @@ def generate_geom_data(num_data, cluster_probs):
 
 def main():
     # TODO: Toggle these between 10 / 1000 and [0.1, 0.5, 0.9] / [0.1, 0.2, 0.9]
-    num_data = 10
+    num_data = 1000
     cluster_probs = [0.1, 0.5, 0.9]
 
     # Do not edit the below code, it is to help you run the algorithm

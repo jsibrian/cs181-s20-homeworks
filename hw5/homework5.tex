@@ -112,7 +112,7 @@ Using the~$\boldq_n$ estimates from the Expectation Step, derive an update for m
 
 \begin{itemize}
     \item \textbf{Part 4.A } Derive an expression for the expected complete-data log likelihood using $\boldq_n$.
-    \item \textbf{Part 4.B } Find an expression for $\btheta$ that maximizes this expected complete-data log likelihood. You may find it helpful to use Lagrange multipliers in order to enforce the constraint $\sum \theta_k = 1$. Why does this optimized $\btheta$ make intuitive sense?
+    \item \textbf{Part 4.B } Find an expression for $\btheta$ that maximizes this expected complete-data log likelihood. You may find it helpful to use Lagrange multipliers in order to enforce the constraint $\sum \btheta_k = 1$. Why does this optimized $\btheta$ make intuitive sense?
     \item \textbf{Part 4.C } Apply a similar argument to find the
       values of $\{p_k \}^K_{k = 1}$ that maximizes the expected
       complete-data log likelihood.
@@ -133,12 +133,208 @@ Using the~$\boldq_n$ estimates from the Expectation Step, derive an update for m
 
 \end{enumerate}
 
-
-
 \end{problem}
 
 \subsection*{Solution}
-
+\begin{enumerate}
+    \item 
+        \begin{equation*}
+            p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1})
+        \end{equation*}
+        \begin{equation*}
+             p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \sum_{i=1}^K p(x_n, z_n = i | \{p_k\}^K_{k = 1})
+        \end{equation*}
+        \begin{equation*}
+             p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \sum_{i=1}^K p(x_n | z_n = i, \{p_k\}^K_{k = 1}) p(z_n = i)
+        \end{equation*}
+        \begin{center}
+            We are given that $p(z_n = i) = \btheta_i$
+        \end{center}
+        \begin{equation*}
+             p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \sum_{i=1}^K p(x_n | z_n = i, \{p_k\}^K_{k = 1}) \btheta_{i}
+        \end{equation*}
+        \begin{center}
+            We are given that $x_n|z_n$ comes from Geom$(p_{z_n})$ and we can apply the PMF.
+        \end{center}
+        \begin{equation*}
+            p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \sum_{i=1}^K (1-p_i)^{x_n - 1}p_i \btheta_{i}
+        \end{equation*}
+        \begin{center}
+            Now we have all N data points
+        \end{center}
+        \begin{equation*}
+            p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \prod_{j = 1}^N\sum_{i=1}^K (1-p_i)^{x_j - 1}p_i \btheta_{i}
+        \end{equation*}
+        \begin{center}
+            Lastly, we take the log
+        \end{center}
+        \begin{equation*}
+            \log p(\{\boldx_n\}^N_{n=1}|\{p_k\}^K_{k = 1}) = \sum_{j = 1}^N\log(\sum_{i=1}^K (1-p_i)^{x_j - 1}p_i \btheta_{i})
+        \end{equation*}
+        
+        By trying to optimize this loss, we have to sum the $K$ classes over of the latent variable $\boldz_{n}$ is inside of a log which means we cannot get a closed form solution. This is because consolidating a summation inside of a log is not possible.
+    
+    \item
+        \begin{equation*}
+            p(D \given\btheta, \{p_k\}^K_{k=1}) =  p(\{(\boldx_n, \boldz_n)\}_{n=1}^N \given\btheta, \{p_k\}^K_{k=1})
+        \end{equation*}
+        \begin{equation*}
+            p(D \given\btheta, \{p_k\}^K_{k=1})  =  \prod_{j=1}^N p(x_j, z_j \given\btheta, \{p_k\}^K_{k=1})
+        \end{equation*}
+        \begin{equation*}
+            p(D \given\btheta, \{p_k\}^K_{k=1})  =  \prod_{j=1}^N p(x_j \given z_j,\btheta, \{p_k\}^K_{k=1}) p(z_j \given\btheta, \{p_k\}^K_{k=1})
+        \end{equation*}
+        \begin{equation*}
+            p(D \given\btheta, \{p_k\}^K_{k=1}) = \prod_{j=1}^N (1-p_{z_j})^{x_j - 1}p_{z_j} \btheta_{z_j}
+        \end{equation*}
+        \begin{center}
+            Now we take the negative log
+        \end{center}
+        \begin{equation*}
+             \mcL(\btheta, \{p_k\}^K_{k=1}) = - \log \prod_{j=1}^N (1-p_{z_j})^{x_j - 1}p_{z_j} \btheta_{z_j}
+        \end{equation*}
+        \begin{equation*}
+             \mcL(\btheta, \{p_k\}^K_{k=1}) = - \sum_{j=1}^N \log ((1-p_{z_j})^{x_j - 1}p_{z_j} \btheta_{z_j})
+        \end{equation*}
+        \begin{equation*}
+             \mcL(\btheta, \{p_k\}^K_{k=1}) = - \sum_{i=1}^K\sum_{j=1}^N z_{ij} \log ((1-p_{i})^{x_j - 1}p_{i} \btheta_{i})
+        \end{equation*}
+        \begin{equation*}
+             \mcL(\btheta, \{p_k\}^K_{k=1}) = - \sum_{i=1}^K\sum_{j=1}^N z_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i}))
+        \end{equation*}
+    
+    \item
+        \textbf{Part 3.A }
+        \begin{equation*}
+            \boldq_{n} = p(\boldz_n | \boldx_n; \btheta, \{ p_k \}^K_{k=1})
+        \end{equation*}
+        \begin{equation*}
+            \boldq_{n} = \frac{p(\boldz_n, \boldx_n; \btheta, \{ p_k \}^K_{k=1})}{p(\boldx_n; \btheta, \{ p_k \}^K_{k=1})}
+        \end{equation*}
+        \begin{center}
+            Now we want this, but for a single $n$ point
+        \end{center}
+        \begin{equation*}
+            \boldq_{n} = \frac{(1-p_{z_n})^{x_n - 1}p_{z_n} \btheta_{z_n}}{\sum_{k =1}^K (1-p_{k})^{x_n - 1}p_{k} \btheta_{k}}
+        \end{equation*}
+    
+        \textbf{Part 3.B }\newline
+        Each $j$-th element of $\boldq_n$ can be represented by $p(\boldz_n = j\given \boldx_n; \btheta, \{ p_k \}^K_{k=1})$. So,
+            \begin{equation*}
+                p(\boldz_n = j\given \boldx_n; \btheta, \{ p_k \}^K_{k=1}) = \frac{(1-p_{j})^{x_n - 1}p_{j} \btheta_{j}}{\sum_{k = 1}^K (1-p_{k})^{x_n - 1}p_{k} \btheta_{k}}
+            \end{equation*}
+        This is for a single data point for all $j \in \{1, ... , K\}$, so we want to calculate these values and then store them in a $1 \times K$ vector. We then want to do this for all $N$ data points and store those as subsequent rows. So we will end up with a $N\times K$ where each row represents the $\boldq_n$ of a specific point.
+        
+    \item
+        \textbf{Part 4.A }\newline
+        We take the result from part 2
+        \begin{equation*}
+            \mcL(\btheta, \{p_k\}^K_{k=1}) = - \sum_{i=1}^K\sum_{j=1}^N z_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i}))
+        \end{equation*}
+        And then take the expectation
+        \begin{equation*}
+            \mathbb{E}(\mcL(\btheta, \{p_k\}^K_{k=1}))= \mathbb{E}(\sum_{i=1}^K\sum_{j=1}^N z_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i})))
+        \end{equation*}
+        And we get by linearity
+        \begin{equation*}
+            = \sum_{i=1}^K\sum_{j=1}^N \mathbb{E}(z_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i})))
+        \end{equation*}
+        Then we can substitute the probability of an indicator variable from part 3
+        \begin{equation*}
+            = \sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i}))
+        \end{equation*}
+        
+        
+        \textbf{Part 4.B }\newline
+        We want to find the argmax for $\btheta$ and we will using Lagrange to enforce the constraint
+        \begin{equation*}
+            \underset{\btheta}{\arg\max} \sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i})) + \lambda (\sum_{k = 1}^K \btheta_{k} - 1)
+        \end{equation*}
+        We then take derivatives
+        \begin{equation*}
+            \frac{\partial}{\partial\btheta_m}(\sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i})) + \lambda (\sum_{k = 1}^K \btheta_{k} - 1))
+        \end{equation*}
+        \begin{equation*}
+            \sum_{j=1}^N \frac{\boldq_{mj}}{\btheta_{m}} + \lambda \text{  for all  } m \in \{1, ..., K\}
+        \end{equation*}
+        and
+        \begin{equation*}
+            \frac{\partial}{\partial\lambda}(\sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i})) - \lambda (\sum_{k = 1}^K \btheta_{k} - 1))
+        \end{equation*}
+        \begin{equation*}
+            \sum \btheta_{k} - 1
+        \end{equation*}
+        Now set to zero
+        \begin{equation*}
+            \sum_{j=1}^N \frac{\boldq_{mj}}{\btheta_{m}} - \lambda = 0 \hspace{2cm} \sum_{k = 1}^K \btheta_{k} - 1 = 0
+        \end{equation*}
+        \begin{equation*}
+            \sum_{j=1}^N \frac{\boldq_{mj}}{\btheta_{m}} = \lambda \hspace{2cm} \sum_{k = 1}^K \btheta_{k} = 1
+        \end{equation*}
+        \begin{equation*}
+            \frac{1}{\btheta_{m}} \sum_{j=1}^N \boldq_{mj} = \lambda \hspace{2cm} \sum_{k = 1}^K \btheta_{k} = 1
+        \end{equation*}
+        \begin{equation*}
+            \frac{1}{\lambda} \sum_{j=1}^N \boldq_{mj} = \btheta_{m} \hspace{2cm} \sum_{k = 1}^K \btheta_{k} = 1
+        \end{equation*}
+        \begin{equation*}
+             \sum_{k = 1}^K \frac{1}{\lambda} \sum_{j=1}^N \boldq_{jk} = 1
+        \end{equation*}
+        \begin{equation*}
+             \sum_{k = 1}^K \sum_{j=1}^N \boldq_{jk} = \lambda
+        \end{equation*}
+        \begin{equation*}
+             \lambda = N
+        \end{equation*}
+        And substituting back gives
+        \begin{equation*}
+            \hat{\btheta}_{m} = \frac{\sum_{j=1}^N \boldq_{mj}}{N}
+        \end{equation*}
+        
+        And this makes intuitive sense because it is the sum of the probability of each point being in a given category $m$ which is our best approximation since we do not know the true assignments (if we did each $q_j$ would be a one hot vector and this would simplify to the proportion of points in a given category). 
+        
+        
+        \textbf{Part 4.C } \newline
+        We do the same as above, but there is no constraint
+        \begin{equation*}
+            \underset{p}{\arg\max} \sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i}))
+        \end{equation*}
+        \begin{equation*}
+            \frac{\partial}{\partial p}(\sum_{i=1}^K\sum_{j=1}^N \boldq_{ij} ((x_j -1) \log(1 - p_i) + \log(p_i) + \log(\btheta_{i}))
+        \end{equation*}
+        \begin{equation*}
+            \sum_{j=1}^N -\frac{\boldq_{mj}(x_j -1)}{1 - p_m} + \frac{\boldq_{mj}}{p_m} \text{  for all  } m \in \{1, ..., K\}
+        \end{equation*}
+        \begin{equation*}
+            \sum_{j=1}^N -\frac{\boldq_{mj}(x_j -1)}{1 - p_m} + \frac{\boldq_{mj}}{p_m} = 0
+        \end{equation*}
+        \begin{equation*}
+            \frac{1}{1 - p_m} \sum_{j=1}^N \boldq_{mj}(x_j -1) = \frac{1}{p_m} \sum_{j=1}^N \boldq_{mj}
+        \end{equation*}
+        \begin{equation*}
+            p_m \sum_{j=1}^N \boldq_{mj}(x_j -1) = (1-p_m) \sum_{j=1}^N \boldq_{mj}
+        \end{equation*}
+        \begin{equation*}
+            p_m \sum_{j=1}^N \boldq_{mj}(x_j -1) + p_m \sum_{j=1}^N \boldq_{mj}= \sum_{j=1}^N \boldq_{mj}
+        \end{equation*}
+        \begin{equation*}
+            p_m  = \frac{\sum_{j=1}^N \boldq_{mj}}{\sum_{j=1}^N \boldq_{mj}x_j}
+        \end{equation*}
+        
+        \item
+        Now that we have the $\boldz_n$ we can use the Complete-Data Log Likelihood calculation since it becomes tractable once we know $\boldz_n$. We can also use our calculations that we did to maximize $\btheta_m$ and $p_m$. The equations we derived will also simplify because the vector $\boldq_n = \boldz_n$ is now one hot encoded.
+        
+        \item 
+        Testing with 10 samples from 3 components $p_1 = .1$, $p_2 = .5$, and $p_3 = .9$ gives us an accuracy of 0.58 (average of 10 runs).
+        
+        Testing with 1000 samples from 3 components $p_1 = .1$, $p_2 = .5$, and $p_3 = .9$ gives us an accuracy of 0.5672 (average of 10 runs).
+        
+        Testing with 1000 samples from 3 components $p_1 = .1$, $p_2 = .2$, and $p_3 = .9$ gives us an accuracy of 0.6063 (average of 10 runs).
+        
+        Moving from 10 samples with $p_2 = .5$ to 1000 samples with $p_2 = .2$ the number of average iterations increase by around a factor of two. And the performance between the three variants of parameters the accuracy does not change significantly. As you add more samples you end up having more variance in the data which explains why the 1000 sample variants take more iterations on average. The lack in change of the accuracy is most likely due to the fact that even if there is more samples the model can account for that and results in similar accuracy across the board.
+        
+        
+\end{enumerate}
 \newpage
 
 \begin{problem}[PCA, 15 pts]
@@ -175,26 +371,52 @@ As before, the given code in \texttt{T5\_P3.py} loads the images into your envir
 \end{enumerate}
 
 
-\textit{Include your plots in your PDF. There may be several plots for this problem, so feel free
-to take up multiple pages.}
-
-
-
-
+\textit{Include your plots in your PDF. There may be several plots for this problem, so feel free to take up multiple pages.}
 
 
 \end{problem}
 
-
+\newpage
 \subsection*{Solution}
+\begin{enumerate}
+    \item Eigenvalues corresponding to the most significant 500 components:\newline
+    \includegraphics[scale=0.5]{hw5/Pics/2_1.png}
+    \newline
+    Cumulative proportion of variance explained: \newline
+    \includegraphics[scale=0.5]{hw5/Pics/2_1_2.png}
+    \newline
+    
+    Variance explained by first 500 components: 20603735864.272518
 
+    The cumulative proportion of variance increases rapidly until about 90-100 principle components. At that point it reaches around 0.85 of the variance and begins to increase slower. It then asymptotically approaches 1, accounting for most of the variance at about 350 principle components. So as $k$ increases so does the amount of variance explained. 
+    
+    \item
+    Mean image:\newline
+    \includegraphics[scale=0.35]{hw5/Pics/2_2.png}
+    \newline
+    Images for first 10 principle components:\newline        \centerline{\includegraphics[scale=1.5]{hw5/Pics/2_2_2.png}}
+    \newline
+    
+    The K-means cluster centers actually resemble digits while the principle components do not appear like digits at all (they actually do not resemble much). The principle clusters actually appear to be like partial overlays of multiple digits as opposed to a single digit that we find in K-means cluster images.
+    
+    
+    And the mean of the data set just looks like a blurry image that overlays all the digits. 
+    
+    
+    \item
+    Reconstruction Error Using Mean Image: 7777920.419736
+    
+    Reconstruction Error Using first 10 PC: 12030152.311277
+
+    The objective function using K-means is $1.26\times 10^{10}$. The reconstruction error using either method are orders of magnitude less than the objective function we got in K-means. This means that the both reconstructions perform better than K-means by a few orders of magnitude. This is likely due to the fact that the principle components create distinct approximations for each point while the K-means method only has 10 approximations for all points.
+\end{enumerate}
 \newpage
 
 \begin{problem}[Bayesian Networks, 10 pts]
 
   \noindent In this problem we explore the conditional independence
   properties of a Bayesian Network.  Consider the following Bayesian
-  network representing a fictious person's activities. Each random
+  network representing a fictitious person's activities. Each random
   variable is binary (true/false).
 
 \begin{center}
@@ -252,9 +474,23 @@ questions and show your work (i.e., state what the blocking path(s) is/are and w
 \end{enumerate}
 \end{problem}
 
-
+\newpage
 \section*{Solution}
-
+\begin{enumerate}
+    \item YES. This is true. This is because there are no active paths between the two nodes. So they must be independent in this case
+    
+    \item NO. This is false. In this case observing Eat exotic foods induces a correlation, effectively unblocking. Thus there is a conditional dependence between Friends over and Sick. The intuition here is that if we knew that someone ate exotic foods and observed that they have had friends over in the most likely case we know that the person is likely not sick. Since having friends over while you are sick is not likely.
+    
+    \item NO. This is false. Given this structure the flow of information is unblocked from Friends over to Get sleep. This goes from Friends over to Weekend to Traveling to Get sleep. The intuition here is that if we observe Get sleep we then have some information on whether it is the Weekend and subsequently some information about Friends over
+    
+    \item YES. This is true. By observing Traveling we block the path from Get sleep and Friends over. Due to this we have independence.   
+    
+    \item \hspace{2cm} \newline
+    \includegraphics[width=2.5in]{hw5/Pics/network.jpg}
+    
+    \item YES. They are independent. If we observed Eat exotic foods we will unblock the flow of information resulting in conditional dependence.
+    
+\end{enumerate}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -262,10 +498,16 @@ questions and show your work (i.e., state what the blocking path(s) is/are and w
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Name}
 
+Jason Sibrian
+
 \subsection*{Collaborators and Resources}
 Whom did you work with, and did you use any resources beyond cs181-textbook and your notes?
 
+N/A, Stack Overflow + Medium + Wikipedia (all for PCA)
+
 \subsection*{Calibration}
 Approximately how long did this homework take you to complete (in hours)? 
+
+24
 
 \end{document}
